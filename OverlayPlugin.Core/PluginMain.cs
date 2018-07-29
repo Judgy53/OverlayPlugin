@@ -309,7 +309,7 @@ namespace RainbowMage.OverlayPlugin
             var path = System.IO.Path.Combine(
                 ActGlobals.oFormActMain.AppDataFolder.FullName,
                 "Config",
-                "RainbowMage.OverlayPlugin.config.xml");
+                "RainbowMage.OverlayPlugin.SWL.config.xml");
 
             return path;
         }

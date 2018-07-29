@@ -109,26 +109,26 @@
         var headerDefine =
         [
             //{ text: "#", width: "5%", align: "center" },
-            { text: "Name", width: "25%", align: "left" },
-            { text: "Job", width: "8%", align: "center" },
-            { text: "DPS (%)", width: "18%", align: "center", span: 2 },
-            { text: "HPS (%)", width: "18%", align: "center", span: 2 },
-            { text: "Acc.(%)", width: "16%", align: "right" },
-            { text: "Crt.(%)", width: "14%", align: "right" },
+            { text: "Name", width: "19%", align: "left" },
+            //{ text: "Job", width: "8%", align: "center" },
+            { text: "DPS (%)", width: "22%", align: "center", span: 2 },
+            { text: "HPS (%)", width: "22%", align: "center", span: 2 },
+            { text: "Hit (%)", width: "19%", align: "right" },
+            { text: "Crt.(%)", width: "17%", align: "right" },
         ];
 
         // 表示するデータの定義
         var bodyDefine =
         [
             //{ text: rankingText, width: "5%", align: "center", effect: deadYatsuEffect },
-            { text: "{name}", width: "25%" },
-            { text: "{Job}", width: "8%", align: "center" },
-            { text: "{encdps}", width: "16%", align: "right" },
-            { text: "{damage%}", width: "5%", align: "right" },
-            { text: "{enchps}", width: "16%", align: "right" },
-            { text: "{healed%}", width: "5%", align: "right" },
-            { text: "{tohit}%", width: "16%", align: "right" },
-            { text: "{crithit%}", width: "14%", align: "right" },
+            { text: "{name}", width: "19%" },
+            //{ text: "{Job}", width: "8%", align: "center" },
+            { text: "{ENCDPS}", width: "18%", align: "right" },
+            { text: "{damage%}", width: "7%", align: "right" },
+            { text: "{ENCHPS}", width: "18%", align: "right" },
+            { text: "{healed%}", width: "7%", align: "right" },
+            { text: "{Glance%}", width: "19%", align: "right", invert: true },
+            { text: "{crithit%}", width: "17%", align: "right" },
         ];
 
         // 順位を表示する（text に関数を指定する例）
@@ -136,7 +136,7 @@
         //  combatant : キャラクターのデータ。combatant["..."]でデータを取得できる。
         //  index : キャラクターの並び順。一番上は 0 で、その後は 1 ずつ増える。
         // 戻り値: 
-        //  表示するテキスト。
+        //  表示するテキスト。encdps
         //  ACT のタグは展開されないので、展開したい場合は parseActFormat 関数を使用してください。
         function rankingText(combatant, index) {
             // 1 から始まる番号を返す
@@ -277,7 +277,7 @@
                         if (typeof bodyDefine[i].text === 'function') {
                             cellText = bodyDefine[i].text(combatant, combatantIndex);
                         } else {
-                            cellText = parseActFormat(bodyDefine[i].text, combatant);
+                            cellText = parseActFormat(bodyDefine[i].text, combatant, bodyDefine[i].invert);
                         }
                         cell.innerText = cellText;
                     } else if (typeof bodyDefine[i].html !== 'undefined') {
@@ -314,7 +314,7 @@
         }
 
         // Miniparse フォーマット文字列を解析し、表示文字列を取得する
-        function parseActFormat(str, dictionary)
+        function parseActFormat(str, dictionary, invert)
         {
             var result = "";
 
@@ -336,7 +336,10 @@
                     else {
                         var tag = str.slice(openBraceIndex + 1, closeBraceIndex);
                         if (typeof dictionary[tag] !== 'undefined') {
-                            result += dictionary[tag];
+                            if (typeof invert !== 'undefined' && invert === true)
+                                result += invertVal(dictionary[tag]);
+                            else
+                                result += dictionary[tag];
                         } else {
                             console.log("parseActFormat: Unknown tag: " + tag);
                             result += "ERROR";
@@ -347,6 +350,15 @@
             } while (currentIndex < str.length);
             
             return result;
+        }
+
+        //Trying to invert a % var
+        function invertVal(strVal) {
+            var intVal = parseInt(strVal);
+            if (isNaN(intVal))
+                return strVal;
+            else
+                return (100 - intVal) + "%";
         }
 
     </script>

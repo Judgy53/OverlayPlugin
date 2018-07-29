@@ -300,19 +300,21 @@ namespace RainbowMage.OverlayPlugin
         {
             var miniparseOverlayConfig = new MiniParseOverlayConfig(DefaultMiniParseOverlayName);
             miniparseOverlayConfig.Position = new Point(20, 20);
-            miniparseOverlayConfig.Size = new Size(500, 300);
+            miniparseOverlayConfig.Size = new Size(400, 300);
             miniparseOverlayConfig.Url = new Uri(Path.Combine(pluginDirectory, "resources", "miniparse.html")).ToString(); 
 
+            /*
             var spellTimerOverlayConfig = new SpellTimerOverlayConfig(DefaultSpellTimerOverlayName);
             spellTimerOverlayConfig.Position = new Point(20, 520);
             spellTimerOverlayConfig.Size = new Size(200, 300);
             spellTimerOverlayConfig.IsVisible = true;
             spellTimerOverlayConfig.MaxFrameRate = 5;
             spellTimerOverlayConfig.Url = new Uri(Path.Combine(pluginDirectory, "resources", "spelltimer.html")).ToString(); 
+            */
 
             this.Overlays = new OverlayConfigList();
             this.Overlays.Add(miniparseOverlayConfig);
-            this.Overlays.Add(spellTimerOverlayConfig);
+            //this.Overlays.Add(spellTimerOverlayConfig);
         }
 
         /// <summary>
